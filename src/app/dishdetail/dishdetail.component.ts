@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 const DISH = {
   id: '0',
   name: 'Uthappizza',
-  image: '/assets/images/uthappizza.png',
+  image: '/assets/uthappizza.png',
   category: 'mains',
   featured: true,
   label: 'Hot',
