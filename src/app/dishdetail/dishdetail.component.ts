@@ -7,7 +7,7 @@ import { Dish } from '../shared/dish';
 })
 export class DishdetailComponent implements OnInit {
   @Input()
-  public dish!: Dish;
+  public dish: Dish | undefined;
 
   constructor() {}
 
