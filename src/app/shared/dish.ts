@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export class Dish {
   public id: string;
   public name: string;
@@ -7,6 +9,7 @@ export class Dish {
   public label: string;
   public price: string;
   public description: string;
+  public comments: Comment[];
 
   constructor(
     _id: string,
@@ -16,7 +19,8 @@ export class Dish {
     _featured: boolean,
     _label: string,
     _price: string,
-    _description: string
+    _description: string,
+    _comments: Comment[]
   ) {
     this.id = _id;
     this.name = _name;
@@ -26,5 +30,6 @@ export class Dish {
     this.label = _label;
     this.price = _price;
     this.description = _description;
+    this.comments = _comments;
   }
 }
