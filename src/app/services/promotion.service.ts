@@ -12,7 +12,7 @@ export class PromotionService {
   getPromotions(id: string): Promotion {
     return PROMOTION.filter((promo) => promo.id === id)[0];
   }
-  getfeaturedPromotions(): Promotion {
+  getfeaturedPromotion(): Promotion {
     return PROMOTION.filter((promo) => promo.featured)[0];
   }
 }

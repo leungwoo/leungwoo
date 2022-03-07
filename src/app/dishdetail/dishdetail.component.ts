@@ -9,7 +9,6 @@ import { DishService } from '../services/dish.service';
   styleUrls: ['./dishdetail.component.scss'],
 })
 export class DishdetailComponent implements OnInit {
-  // @Input()
   public dish: Dish | undefined;
 
   constructor(
