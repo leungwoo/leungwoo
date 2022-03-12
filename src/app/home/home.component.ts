@@ -11,17 +11,22 @@ import { LeaderService } from '../services/leader.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  dish: Dish;
-  promotion: Promotion;
-  leader: Leader;
+  dish?: Dish;
+  promotion?: Promotion;
+  leader?: Leader;
   constructor(
     private dishservice: DishService,
     private promotionservice: PromotionService,
     private leaderservice: LeaderService
   ) {
-    this.dish = this.dishservice.getfeaturedDish();
-    this.promotion = this.promotionservice.getfeaturedPromotion();
-    this.leader = this.leaderservice.getfeaturedLeader();
+    this.dishservice.getfeaturedDish().then((dishes) => (this.dish = dishes));
+
+    this.promotionservice
+      .getfeaturedPromotion()
+      .then((promotion) => (this.promotion = promotion));
+    this.leaderservice
+      .getfeaturedLeader()
+      .then((leader) => (this.leader = leader));
   }
 
   ngOnInit(): void {}
