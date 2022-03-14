@@ -57,13 +57,9 @@
             type="text"
             required
           />
-          <mat-error
-            *ngIf="
-              feedbackForm.get('firstname')?.hasError('required') &&
-              feedbackForm.get('firstname')?.touched
-            "
-            >First name is Required</mat-error
-          >
+          <mat-error *ngIf="formErrors.firstname">{{
+            formErrors.firstname
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="half-width" appearance="fill">
           <mat-label>lastname</mat-label>
@@ -75,13 +71,9 @@
             type="text"
             required
           />
-          <mat-error
-            *ngIf="
-              feedbackForm.get('lastname')?.hasError('required') &&
-              feedbackForm.get('lastname')?.touched
-            "
-            >Last name is Required</mat-error
-          >
+          <mat-error *ngIf="formErrors.lastname">{{
+            formErrors.lastname
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="half-width" appearance="fill">
           <mat-label>tele. number</mat-label>
@@ -91,15 +83,12 @@
             formControlName="telNum"
             placeholder="tele. number"
             type="tel"
+            pattern="[0-9]*"
             required
           />
-          <mat-error
-            *ngIf="
-              feedbackForm.get('telNum')?.hasError('required') &&
-              feedbackForm.get('telNum')?.touched
-            "
-            >Tele. Num is Required</mat-error
-          >
+          <mat-error *ngIf="formErrors.telnum">{{
+            formErrors.telnum
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="half-width" appearance="fill">
           <mat-label>email</mat-label>
@@ -109,15 +98,10 @@
             formControlName="email"
             placeholder="email"
             type="email"
+            email
             required
           />
-          <mat-error
-            *ngIf="
-              feedbackForm.get('email')?.hasError('required') &&
-              feedbackForm.get('email')?.touched
-            "
-            >Email Required</mat-error
-          >
+          <mat-error *ngIf="formErrors.email">{{ formErrors.email }}</mat-error>
         </mat-form-field>
       </p>
       <table class="form-size">
@@ -137,7 +121,7 @@
         </td>
       </table>
       <p>
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" appearance="outline">
           <textarea
             matInput
             placeholder="Your Feedback"
