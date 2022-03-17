@@ -49,6 +49,7 @@ export class ContactComponent implements OnInit {
       email: 'Email not in valid format.',
     } as Email,
   } as ValidationMessages;
+
   constructor(private fb: FormBuilder) {
     this.feedback = new Feedback('', '', 0, '', false, '', '');
     this.feedbackForm = this.createForm();
@@ -80,12 +81,14 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ['', Validators.max(15)],
     });
+
     this.feedbackForm.valueChanges.subscribe((data) =>
       this.onValueChanged(data)
     );
 
     this.onValueChanged(); // (re)set validation messages now
   }
+
   onValueChanged(data?: any) {
     if (!this.feedbackForm) {
       return;
@@ -110,6 +113,7 @@ export class ContactComponent implements OnInit {
       }
     }
   }
+
   onSubmit() {
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
