@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { formErrors } from '../shared/formErrors';
 import {
+  BaseMessage,
   Email,
   FirstName,
   LastName,
@@ -96,12 +97,13 @@ export class ContactComponent implements OnInit {
 
         this.formErrors[field as keyof formErrors] = '';
         const control = form.get(field);
-        if (control && control.dirty && !control.valid) {
+        if (control?.dirty && control.invalid) {
           const messages =
             this.validationMessages[field as keyof ValidationMessages];
-          for (const key in control.errors) {
-            if (control.errors.hasOwnProperty(key)) {
-              this.formErrors[field as keyof formErrors] += messages[key] + ' ';
+          for (const error in control.errors) {
+            if (control.errors.hasOwnProperty(error)) {
+              this.formErrors[field as keyof formErrors] +=
+                messages[error as keyof BaseMessage] + ' ';
             }
           }
         }
