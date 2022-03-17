@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { formErrors } from '../shared/formErrors';
 import {
+  BaseMessage,
   Email,
   FirstName,
   LastName,
@@ -48,6 +49,7 @@ export class ContactComponent implements OnInit {
       email: 'Email not in valid format.',
     } as Email,
   } as ValidationMessages;
+
   constructor(private fb: FormBuilder) {
     this.feedback = new Feedback('', '', 0, '', false, '', '');
     this.feedbackForm = this.createForm();
@@ -79,12 +81,14 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ['', Validators.max(15)],
     });
+
     this.feedbackForm.valueChanges.subscribe((data) =>
       this.onValueChanged(data)
     );
 
     this.onValueChanged(); // (re)set validation messages now
   }
+
   onValueChanged(data?: any) {
     if (!this.feedbackForm) {
       return;
@@ -96,18 +100,19 @@ export class ContactComponent implements OnInit {
 
         this.formErrors[field as keyof formErrors] = '';
         const control = form.get(field);
-        if (control && control.dirty && !control.valid) {
+        if (control && control.dirty && control.invalid) {
           const messages =
             this.validationMessages[field as keyof ValidationMessages];
-          for (const key in control.errors) {
-            if (control.errors.hasOwnProperty(key)) {
-              this.formErrors[field as keyof formErrors] += messages[key] + ' ';
+          for (const error in control.errors) {
+            if (control.errors.hasOwnProperty(error)) {
+              this.formErrors[field as keyof formErrors] += messages[error as keyof BaseMessage] + ' ';
             }
           }
         }
       }
     }
   }
+
   onSubmit() {
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
