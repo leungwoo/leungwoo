@@ -7,7 +7,7 @@
   fxLayoutGap="10px"
   fxLayoutGap.xs="0"
 >
-  <div fxFlex="40" *ngIf="dish">
+  <div fxFlex="35" *ngIf="dish">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
@@ -36,8 +36,8 @@
     <h4>Loading...Please Wait</h4>
   </div>
 
-  <div fxFlex="40" *ngIf="dish">
-    <h3>Comments</h3>
+  <div fxFlex="50" *ngIf="dish" class="comments">
+    <h3><strong>Comments</strong></h3>
     <mat-list>
       <mat-list-item *ngFor="let comment of dish.comments">
         <h4 matLine>{{ comment.comment }}</h4>
@@ -45,11 +45,50 @@
         <p matLine>
           <span> --{{ comment.author }} {{ comment.date | date }}</span>
         </p>
+        <p matLine>{{ commentsForm }}</p>
       </mat-list-item>
     </mat-list>
+    <div class="form-size">
+      <form novalidation #form="ngForm" [formGroup]="commentsForm">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Name</mat-label>
+          <mat-icon matSuffix>person</mat-icon>
+          <input
+            matInput
+            type="text"
+            formControlName="author"
+            placeholder="Name"
+          />
+        </mat-form-field>
+        <mat-error></mat-error>
+        <br />
+        <app-slider formControlName="rating"></app-slider>
+        <br />
+        <p>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Your Comments</mat-label>
+            <textarea
+              matInput
+              placeholder="Your Comment"
+              formControlName="comment"
+              rows="8"
+            >
+            </textarea>
+          </mat-form-field>
+        </p>
+        <button
+          mat-button
+          [disabled]="commentsForm.invalid"
+          class="background-primary text-floral-white"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   </div>
   <div [hidden]="dish">
     <mat-spinner></mat-spinner>
     <h4>Loading ...Please Wait</h4>
   </div>
 </div>
+<p>Form Status: {{ commentsForm.status }}</p>
