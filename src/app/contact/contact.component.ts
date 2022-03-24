@@ -53,6 +53,12 @@ export class ContactComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.feedback = new Feedback('', '', 0, '', false, '', '');
     this.feedbackForm = this.createForm();
+
+    this.feedbackForm.valueChanges.subscribe((data) =>
+      this.onValueChanged(data)
+    );
+
+    this.onValueChanged(); // (re)set validation messages now
   }
 
   ngOnInit() {}
@@ -81,12 +87,6 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ['', Validators.max(15)],
     });
-
-    this.feedbackForm.valueChanges.subscribe((data) =>
-      this.onValueChanged(data)
-    );
-
-    this.onValueChanged(); // (re)set validation messages now
   }
 
   onValueChanged(data?: any) {

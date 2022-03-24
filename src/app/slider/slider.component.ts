@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-slider',
@@ -6,27 +7,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./slider.component.scss'],
 })
 export class SliderComponent implements OnInit {
+  //default value set to 5
+  value = 5;
   autoTicks = false;
   disabled = false;
-  invert = false;
   max = 5;
-  min = 0;
+  min = 1;
   showTicks = true;
   step = 1;
   thumbLabel = true;
-  value = 5;
   vertical = false;
   tickInterval = 1;
-
-  getSliderTickInterval(): number | 'auto' {
-    if (this.showTicks) {
-      return this.autoTicks ? 'auto' : this.tickInterval;
-    }
-
-    return 0;
-  }
+  // created a property to attach a eventemitter then added a decorator called Output
+  //to send the value of the property to the parent component
+  @Output() ratingEvent: EventEmitter<number> = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
+  //added a method to capture the event
+  onSliderValueChange(event: any) {
+    this.ratingEvent.emit(event.value);
+  }
 }

@@ -1,13 +1,13 @@
 <mat-slider
   class="example-margin"
   [disabled]="disabled"
-  [invert]="invert"
   [max]="max"
   [min]="min"
   [step]="step"
   [thumbLabel]="thumbLabel"
-  [tickInterval]="getSliderTickInterval()"
   [(ngModel)]="value"
   aria-labelledby="example-name-label"
+  (change)="onSliderValueChange($event)"
 >
 </mat-slider>
+<!-- added a change event to the slider to capture the event -->

@@ -7,6 +7,7 @@
   fxLayoutGap="10px"
   fxLayoutGap.xs="0"
 >
+  <!--selected dish  -->
   <div fxFlex="35" *ngIf="dish">
     <mat-card>
       <mat-card-header>
@@ -14,7 +15,11 @@
           <h3>{{ dish.name | uppercase }}</h3>
         </mat-card-title>
       </mat-card-header>
-      <img mat-card-image src="{{ dish?.image }}" alt="{{ dish?.name }}" />
+      <img
+        mat-card-image
+        src="{{ BaseURL + dish?.image }}"
+        alt="{{ dish?.name }}"
+      />
       <mat-card-content>
         <p>{{ dish.description }}</p>
       </mat-card-content>
@@ -35,8 +40,8 @@
     <mat-spinner></mat-spinner>
     <h4>Loading...Please Wait</h4>
   </div>
-
-  <div fxFlex="50" *ngIf="dish" class="comments">
+  <!--Comments array section -->
+  <div fxFlex="45" *ngIf="dish" class="comments">
     <h3><strong>Comments</strong></h3>
     <mat-list>
       <mat-list-item *ngFor="let comment of dish.comments">
@@ -45,29 +50,57 @@
         <p matLine>
           <span> --{{ comment.author }} {{ comment.date | date }}</span>
         </p>
-        <p matLine>{{ commentsForm }}</p>
       </mat-list-item>
     </mat-list>
+    <!-- added this div to preview the form input data before being submitted -->
+    <div *ngIf="commentsForm.valid">
+      <mat-list-item>
+        <h4 matLine>{{ commentsForm.get("comment")?.value }}</h4>
+        <p matLine>{{ rating }} Stars</p>
+        <p matLine>
+          <span>
+            --{{ commentsForm.get("author")?.value }} {{ today | date }}</span
+          >
+        </p>
+      </mat-list-item>
+    </div>
+    <!--Reactive form  -->
     <div class="form-size">
-      <form novalidation #form="ngForm" [formGroup]="commentsForm">
+      <form
+        novalidation
+        #form="ngForm"
+        [formGroup]="commentsForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <!--Author field with error message  -->
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Name</mat-label>
           <mat-icon matSuffix>person</mat-icon>
           <input
+            required
             matInput
             type="text"
             formControlName="author"
             placeholder="Name"
           />
         </mat-form-field>
-        <mat-error></mat-error>
+        <mat-error *ngIf="commentErrors.author">{{
+          commentErrors.author
+        }}</mat-error>
         <br />
-        <app-slider formControlName="rating"></app-slider>
+
+        <!-- added this selector to import the slider child component where the event is passed to the handler-->
+        <app-slider
+          (ratingEvent)="onSliderValueChangeHandler($event)"
+        ></app-slider>
+
         <br />
+        <!--Comments field with error message  -->
         <p>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Your Comments</mat-label>
             <textarea
+              required
               matInput
               placeholder="Your Comment"
               formControlName="comment"
@@ -75,9 +108,14 @@
             >
             </textarea>
           </mat-form-field>
+          <mat-error *ngIf="commentErrors.comment">{{
+            commentErrors.comment
+          }}</mat-error>
         </p>
+        <!--Submit button that is disabled once form is invalid -->
         <button
           mat-button
+          type="submit"
           [disabled]="commentsForm.invalid"
           class="background-primary text-floral-white"
         >
@@ -91,4 +129,3 @@
     <h4>Loading ...Please Wait</h4>
   </div>
 </div>
-<p>Form Status: {{ commentsForm.status }}</p>
