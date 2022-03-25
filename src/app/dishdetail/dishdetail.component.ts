@@ -28,6 +28,7 @@ export class DishdetailComponent implements OnInit {
   });
 
   public dish: Dish | undefined;
+  public errMess?: string;
   public dishIds: string[] = [];
   public prev?: string;
   public next?: string;
@@ -56,6 +57,7 @@ export class DishdetailComponent implements OnInit {
     private dishservice: DishService,
     private location: Location,
     private route: ActivatedRoute,
+
     @Inject('BaseURL') public BaseURL: string
   ) {
     this.commentsForm.valueChanges.subscribe((data) =>
@@ -95,10 +97,13 @@ export class DishdetailComponent implements OnInit {
       .pipe(
         switchMap((params: Params) => this.dishservice.getDish(params['id']))
       )
-      .subscribe((dish) => {
-        this.dish = dish;
-        this.setPrevNext(dish.id);
-      });
+      .subscribe(
+        (dish) => {
+          this.dish = dish;
+          this.setPrevNext(dish.id);
+        },
+        (errmess) => (this.errMess = <any>errmess)
+      );
   }
   setPrevNext(dishId: string) {
     const index = this.dishIds.indexOf(dishId);

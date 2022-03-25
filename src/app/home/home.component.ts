@@ -12,6 +12,7 @@ import { LeaderService } from '../services/leader.service';
 })
 export class HomeComponent implements OnInit {
   dish?: Dish;
+  dishErrMess?: string;
   promotion?: Promotion;
   leader?: Leader;
   constructor(
@@ -20,9 +21,10 @@ export class HomeComponent implements OnInit {
     private leaderservice: LeaderService,
     @Inject('BaseURL') public BaseURL: string
   ) {
-    this.dishservice
-      .getFeaturedDish()
-      .subscribe((dishes) => (this.dish = dishes));
+    this.dishservice.getFeaturedDish().subscribe(
+      (dishes) => (this.dish = dishes),
+      (errmess) => (this.dishErrMess = <any>errmess)
+    );
 
     this.promotionservice
       .getFeaturedPromotion()
