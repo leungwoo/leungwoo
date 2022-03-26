@@ -7,8 +7,8 @@
   fxLayoutGap="10px"
   fxLayoutGap.xs="0"
 >
-  <!--selected dish  -->
-  <div fxFlex="35" *ngIf="dish">
+  <!--selected dish, visibility attribute add for the ui experience -->
+  <div fxFlex="35" *ngIf="dish" [@visibility]="visibility">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
@@ -45,8 +45,8 @@
     <h2>Error</h2>
     <h4>{{ errMess }}</h4>
   </div>
-  <!--Comments array section -->
-  <div fxFlex="45" *ngIf="dish" class="comments">
+  <!--Comments array section, visibility attribute add for the ui experience -->
+  <div fxFlex="45" *ngIf="dish" class="comments" [@visibility]="visibility">
     <h3><strong>Comments</strong></h3>
     <mat-list>
       <mat-list-item *ngFor="let comment of dish.comments">

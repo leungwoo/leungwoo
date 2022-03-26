@@ -1,10 +1,4 @@
-import {
-  Component,
-  Inject,
-  Input,
-  OnInit,
-  ɵɵqueryRefresh,
-} from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,11 +8,25 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommentErrors } from '../shared/commentErrors';
 import { Base, ValidationComments } from '../shared/validationComments';
 import { Comment } from '../shared/comment';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
+  animations: [
+    trigger('visibility', [
+      state('shown', style({ transform: 'scale(1.0)', opacity: 1 })),
+      state('hidden', style({ transform: 'scale(0.5)', opacity: 0 })),
+      transition('* => *', animate('0.5s ease-in-out')),
+    ]),
+  ],
 })
 export class DishdetailComponent implements OnInit {
   public commentsForm = this.fb.group({
@@ -33,6 +41,8 @@ export class DishdetailComponent implements OnInit {
   public prev?: string;
   public next?: string;
   public dishcopy?: Dish;
+  //visibility property for the ui experience
+  public visibility = 'shown';
   //default value set to 5
   public rating: number = 5;
   //added the date as a property
@@ -89,20 +99,24 @@ export class DishdetailComponent implements OnInit {
       }
     }
   }
-
+  //added visibility aspect to this function
   ngOnInit() {
     this.dishservice
       .getDishIds()
       .subscribe((dishIds) => (this.dishIds = dishIds));
     this.route.params
       .pipe(
-        switchMap((params: Params) => this.dishservice.getDish(params['id']))
+        switchMap((params: Params) => {
+          this.visibility = 'hidden';
+          return this.dishservice.getDish(params['id']);
+        })
       )
       .subscribe(
         (dish) => {
           this.dish = dish;
           this.dishcopy = dish;
           this.setPrevNext(dish.id);
+          this.visibility = 'shown';
         },
         (errmess) => (this.errMess = <any>errmess)
       );
