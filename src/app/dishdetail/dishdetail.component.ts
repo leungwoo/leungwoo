@@ -32,6 +32,7 @@ export class DishdetailComponent implements OnInit {
   public dishIds: string[] = [];
   public prev?: string;
   public next?: string;
+  public dishcopy?: Dish;
   //default value set to 5
   public rating: number = 5;
   //added the date as a property
@@ -100,6 +101,7 @@ export class DishdetailComponent implements OnInit {
       .subscribe(
         (dish) => {
           this.dish = dish;
+          this.dishcopy = dish;
           this.setPrevNext(dish.id);
         },
         (errmess) => (this.errMess = <any>errmess)
@@ -133,7 +135,11 @@ export class DishdetailComponent implements OnInit {
     author = this.commentsForm.get('author')?.value;
     date = new Date().toISOString();
 
-    this.dish?.comments.push(new Comment(rating, comment, author, date));
+    this.dishcopy?.comments.push(new Comment(rating, comment, author, date));
+    // this.dishservice.putDish(this.dishcopy?).subscribe((dish) => {
+    //   this.dish = dish;
+    //   this.dishcopy = dish;
+    // });
     //reset the form to initial values
 
     this.commentsForm.reset({
