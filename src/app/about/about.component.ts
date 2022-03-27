@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Leader } from '../shared/leader';
 import { LeaderService } from '../services/leader.service';
-import { expand, flyInOut } from '../animations/app.animations';
+import { flyInOut } from '../animations/app.animations';
+import { baseURL } from '../shared/baseurl';
 
 @Component({
   selector: 'app-about',
@@ -11,12 +12,15 @@ import { expand, flyInOut } from '../animations/app.animations';
     '[@flyInOut]': 'true',
     style: 'display:block;',
   },
-  animations: [flyInOut(), expand()],
+  animations: [flyInOut()],
 })
 export class AboutComponent implements OnInit {
   public leader?: Leader[];
 
-  constructor(private leaderservice: LeaderService) {
+  constructor(
+    private leaderservice: LeaderService,
+    @Inject('BaseURL') public BaseURL: string
+  ) {
     this.leaderservice
       .getLeaders()
       .subscribe((leader) => (this.leader = leader));

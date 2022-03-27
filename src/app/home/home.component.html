@@ -39,7 +39,7 @@
     </mat-card-header>
     <img
       mat-card-image
-      src="{{ promotion.image }}"
+      src="{{ BaseURL + promotion.image }}"
       alt="{{ promotion.name }}"
     />
     <mat-card-content>
@@ -59,7 +59,11 @@
       </mat-card-title>
     </mat-card-header>
 
-    <img mat-card-image src="{{ leader.image }}" alt="{{ leader.image }}" />
+    <img
+      mat-card-image
+      src="{{ BaseURL + leader.image }}"
+      alt="{{ leader.image }}"
+    />
 
     <mat-card-content>
       <p>{{ leader.description }}</p>

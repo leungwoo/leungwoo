@@ -27,12 +27,12 @@ export class DishdetailComponent implements OnInit {
     comment: ['', [Validators.minLength(5), Validators.required]],
   });
 
-  public dish: Dish | undefined;
-  public errMess?: string;
+  public dish!: Dish;
+  public errMess!: string;
   public dishIds: string[] = [];
   public prev?: string;
   public next?: string;
-  public dishcopy?: Dish;
+  public dishcopy!: Dish;
   //visibility property for the ui experience
   public visibility = 'shown';
   //default value set to 5
@@ -141,11 +141,14 @@ export class DishdetailComponent implements OnInit {
     author = this.commentsForm.get('author')?.value;
     date = new Date().toISOString();
 
-    this.dishcopy?.comments.push(new Comment(rating, comment, author, date));
-    // this.dishservice.putDish(this.dishcopy?).subscribe((dish) => {
-    //   this.dish = dish;
-    //   this.dishcopy = dish;
-    // });
+    this.dishcopy.comments.push(new Comment(rating, comment, author, date));
+    this.dishservice.putDish(this.dishcopy).subscribe(
+      (dish) => {
+        this.dish = dish;
+        this.dishcopy = dish;
+      }
+      //errmess => { this.dish = null; this.dishcopy = null; this.errMess = <any>errmess; }
+    );
     //reset the form to initial values
 
     this.commentsForm.reset({

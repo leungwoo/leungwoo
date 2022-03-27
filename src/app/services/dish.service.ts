@@ -47,6 +47,7 @@ export class DishService {
         'Content-Type': 'application/json',
       }),
     };
+    //adding data to the serve side with Angular Put method
     return this.http
       .put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
       .pipe(catchError(this.processHTTPMsgService.handleError));
