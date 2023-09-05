@@ -1,4 +1,4 @@
-   Greetings, everyone! 👋 I'm Richard.
+Greetings, everyone! 👋 I'm Richard.
 
 🔭 As a dedicated developer, I thrive on remote work, where I tackle exciting projects. My expertise lies in React and NextJS, and I'm always eager to embrace new front-end technologies like Angular and WordPress.
 
